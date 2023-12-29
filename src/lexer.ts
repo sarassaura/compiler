@@ -33,9 +33,12 @@ class Tokenizer {
 			(this.buffer = this.content[this.cursor]);
 	}
 
-	eat() {
-		this.cursor++;
-		this.buffer += this.content.substring(this.cursor, this.cursor + 1);
+	eat(num: number = 1) {
+		this.buffer += this.content.substring(
+			this.cursor + 1,
+			this.cursor + num + 1
+		);
+		this.cursor += num;
 	}
 
 	next(num: number = 1) {
@@ -87,8 +90,7 @@ class Tokenizer {
 			while (this.next(2) !== '*/' && this.next() !== '') {
 				this.eat();
 			}
-			this.eat();
-			this.eat();
+			this.eat(2);
 			return { kind: 'CommentMultiline', value: this.buffer };
 		}
 		for (const string of ['"', "'", '`']) {

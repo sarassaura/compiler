@@ -88,4 +88,10 @@ describe('Basic functionalities', () => {
 			body: [{ kind: '(' }, { kind: '(' }]
 		});
 	});
+	test('Invalid Token', () => {
+		expect(parser('@')).toStrictEqual({
+			type: 'program',
+			body: [{ kind: 'INVALID', value: '@' }]
+		});
+	});
 });
