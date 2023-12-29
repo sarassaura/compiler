@@ -35,7 +35,7 @@ class Tokenizer {
 
 	eat() {
 		this.cursor++;
-		this.buffer += this.content[this.cursor];
+		this.buffer += this.content.substring(this.cursor, this.cursor + 1);
 	}
 
 	next(num: number = 1) {
