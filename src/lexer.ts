@@ -1,4 +1,4 @@
-import { TokenLiteral, keywords } from './types';
+import { TokenLiteral, TokenKind } from './types';
 
 export default function lexer(str: string): Array<Token> {
 	const t = new Tokenizer(str);
@@ -48,7 +48,7 @@ class Tokenizer {
 	}
 
 	create(token: Token) {
-		if (token.kind == 'whitespace' || token.kind == 'newline') return;
+		if (token.kind == 'ignore') return;
 
 		this.tokens.push(token);
 	}
@@ -70,42 +70,24 @@ class Tokenizer {
 	}
 
 	token(): Token {
-		if (this.startsWith(/^[ \t]+$/g)) {
-			return { kind: 'whitespace' };
-		}
-		if (this.startsWith(/\r\n?|\n|\u2028|\u2029/g)) {
-			return { kind: 'newline' };
-		}
-		if (this.startsWith(/[a-zA-Z_]+/g)) {
-			while (/[a-zA-Z0-9_]+/g.test(this.next())) {
-				this.eat();
-			}
-			return { kind: 'Identifier', value: this.buffer };
-		}
-		if (this.startsWith(/[0-9]+/g)) {
-			while (/[0-9]+/g.test(this.next())) {
-				this.eat();
-			}
-			return { kind: 'NumericLiteral', value: this.buffer };
-		}
-		if (this.startsWith(/\/\//g, 2)) {
-			while (this.notEndsWith(/\r\n?|\n|\u2028|\u2029/g)) {
-				this.eat();
-			}
-			return { kind: 'Comment', value: this.buffer };
-		}
-		if (this.startsWith(/\/\*/g, 2)) {
-			while (this.notEndsWith(/\*\//g, 2)) {
-				this.eat();
-			}
-			return { kind: 'CommentMultiline', value: this.buffer };
-		}
-		for (const string of [/\"/g, /\'/g, /\`/g]) {
-			if (this.startsWith(string)) {
-				while (this.notEndsWith(string)) {
-					this.eat();
+		for (let i = 0; i < TokenKind.length; i++) {
+			if (this.startsWith(TokenKind[i].start, TokenKind[i].startLength)) {
+				if (TokenKind[i].middle != undefined) {
+					while (TokenKind[i].middle!.test(this.next())) {
+						this.eat();
+					}
 				}
-				return { kind: 'String', value: this.buffer };
+				if (TokenKind[i].end != undefined) {
+					while (
+						this.notEndsWith(TokenKind[i].end!, TokenKind[i].startLength)
+					) {
+						this.eat();
+					}
+				}
+				return {
+					kind: TokenKind[i].kind,
+					...(!TokenKind[i].literal && { value: this.buffer })
+				};
 			}
 		}
 		for (let i = 0; i < TokenLiteral.length; i++) {

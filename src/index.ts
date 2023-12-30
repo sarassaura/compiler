@@ -4,7 +4,7 @@ import parser from './parser';
 
 console.log(
 	parser(
-		`import { TokenLiteral, keywords } from './types';
+		`import       { TokenLiteral, keywords } from './types';
 		// Hello
 		s
 		/*
