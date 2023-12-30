@@ -65,7 +65,9 @@ class Tokenizer {
 		if (!str.test(this.next(num)) && this.next() !== '') {
 			return true;
 		}
-		tail && this.eat(num);
+		if (this.next(num) !== '') {
+			tail && this.eat(num);
+		}
 		return false;
 	}
 

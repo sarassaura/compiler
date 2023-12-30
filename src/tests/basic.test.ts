@@ -56,6 +56,30 @@ describe('Lexer Basic', () => {
 				}
 			]
 		});
+
+		expect(parser('/*')).toStrictEqual({
+			type: 'program',
+			body: [
+				{
+					kind: 'CommentMultiline',
+					value: '/*',
+					start: 0,
+					end: 2
+				}
+			]
+		});
+
+		expect(parser('/* ')).toStrictEqual({
+			type: 'program',
+			body: [
+				{
+					kind: 'CommentMultiline',
+					value: '/* ',
+					start: 0,
+					end: 3
+				}
+			]
+		});
 	});
 	test('Strings', () => {
 		expect(parser('""')).toStrictEqual({
@@ -63,10 +87,10 @@ describe('Lexer Basic', () => {
 			body: [{ kind: 'String', value: '""', start: 0, end: 2 }]
 		});
 
-		// expect(parser('"')).toStrictEqual({
-		// 	type: 'program',
-		// 	body: [{ kind: 'String', value: '"', start: 0, end: 1 }]
-		// });
+		expect(parser('"')).toStrictEqual({
+			type: 'program',
+			body: [{ kind: 'String', value: '"', start: 0, end: 1 }]
+		});
 
 		expect(parser('"B"')).toStrictEqual({
 			type: 'program',

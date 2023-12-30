@@ -6,7 +6,14 @@ export default function parser(str: string): AST {
 
 	Tokens.forEach((token) => {
 		if (token.kind == 'INVALID') {
-			console.log('Invalid Character: ', token.value);
+			console.log(
+				'Invalid Character: ',
+				token.value,
+				' start: ',
+				token.start,
+				' end: ',
+				token.end
+			);
 		}
 		if (token.kind == 'Identifier') {
 			if (keywords.includes(token.value!)) {
