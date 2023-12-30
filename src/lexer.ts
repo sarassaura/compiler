@@ -80,8 +80,8 @@ class Tokenizer {
 				return {
 					kind: t.kind,
 					...(!t.literal && { value: this.buffer }),
-					start: this.cursor - this.buffer.length,
-					end: this.cursor
+					start: this.cursor - this.buffer.length + 1,
+					end: this.cursor + 1
 				};
 			}
 		}
@@ -89,8 +89,8 @@ class Tokenizer {
 		return {
 			kind: 'INVALID',
 			value: this.buffer,
-			start: this.cursor - this.buffer.length,
-			end: this.cursor
+			start: this.cursor - this.buffer.length + 1,
+			end: this.cursor + 1
 		};
 	}
 }
