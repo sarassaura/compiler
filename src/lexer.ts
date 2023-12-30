@@ -61,30 +61,25 @@ class Tokenizer {
 		return false;
 	}
 
-	notEndsWith(str: RegExp, num: number = 1) {
+	notEndsWith(str: RegExp, num: number = 1, tail: boolean = true) {
 		if (!str.test(this.next(num)) && this.next() !== '') {
 			return true;
 		}
-		this.eat(num);
+		tail && this.eat(num);
 		return false;
 	}
 
 	token(): Token {
-		for (let i = 0; i < TokenKind.length; i++) {
-			if (this.startsWith(TokenKind[i].start, TokenKind[i].startLength)) {
-				if (TokenKind[i].middle) {
-					while (TokenKind[i].middle!.test(this.next())) {
-						this.eat();
-					}
-				}
-				if (TokenKind[i].end) {
-					while (this.notEndsWith(TokenKind[i].end!, TokenKind[i].endLength)) {
+		for (let t of TokenKind) {
+			if (this.startsWith(t.start, t.startLength)) {
+				if (t.end) {
+					while (this.notEndsWith(t.end!, t.endLength, t.tail)) {
 						this.eat();
 					}
 				}
 				return {
-					kind: TokenKind[i].kind,
-					...(!TokenKind[i].literal && { value: this.buffer })
+					kind: t.kind,
+					...(!t.literal && { value: this.buffer })
 				};
 			}
 		}
