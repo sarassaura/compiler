@@ -65,6 +65,7 @@ class Tokenizer {
 		if (!str.test(this.next(num)) && this.next() !== '') {
 			return true;
 		}
+		this.eat(num);
 		return false;
 	}
 
@@ -97,7 +98,6 @@ class Tokenizer {
 			while (this.notEndsWith(/\*\//g, 2)) {
 				this.eat();
 			}
-			this.eat(2);
 			return { kind: 'CommentMultiline', value: this.buffer };
 		}
 		for (const string of ['"', "'", '`']) {

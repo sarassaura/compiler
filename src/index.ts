@@ -6,6 +6,7 @@ console.log(
 	parser(
 		`import { TokenLiteral, keywords } from './types';
 		// Hello
+		s
 		/*
 			Mua
 		*/

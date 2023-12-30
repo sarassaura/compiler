@@ -24,7 +24,7 @@ test('Joker test', () => {
 			{ kind: 'String', value: '"ddd"' },
 			{ kind: 'String', value: '`ss`' },
 			{ kind: ';' },
-			{ kind: 'Comment', value: '// awfna awenf ' },
+			{ kind: 'Comment', value: '// awfna awenf \n' },
 			{ kind: 'CommentMultiline', value: '/* Bla /n 2 */' },
 			{ kind: 'Keyword', value: 'await' }
 		]
