@@ -53,7 +53,7 @@ class Tokenizer {
 		this.tokens.push(token);
 	}
 
-	startsWith(str: RegExp, num: number) {
+	startsWith(str: RegExp, num: number = 1) {
 		if (str.test(this.buffer + this.next(num - 1))) {
 			this.eat(num - 1);
 			return true;
@@ -70,19 +70,19 @@ class Tokenizer {
 	}
 
 	token(): Token {
-		if (this.startsWith(/^[ \t]+$/g, 1)) {
+		if (this.startsWith(/^[ \t]+$/g)) {
 			return { kind: 'whitespace' };
 		}
-		if (this.startsWith(/\r\n?|\n|\u2028|\u2029/g, 1)) {
+		if (this.startsWith(/\r\n?|\n|\u2028|\u2029/g)) {
 			return { kind: 'newline' };
 		}
-		if (this.startsWith(/[a-zA-Z_]+/g, 1)) {
+		if (this.startsWith(/[a-zA-Z_]+/g)) {
 			while (/[a-zA-Z0-9_]+/g.test(this.next())) {
 				this.eat();
 			}
 			return { kind: 'Identifier', value: this.buffer };
 		}
-		if (this.startsWith(/[0-9]+/g, 1)) {
+		if (this.startsWith(/[0-9]+/g)) {
 			while (/[0-9]+/g.test(this.next())) {
 				this.eat();
 			}
