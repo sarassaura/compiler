@@ -61,7 +61,7 @@ class Tokenizer {
 		return false;
 	}
 
-	notEndsWith(str: RegExp, num: number) {
+	notEndsWith(str: RegExp, num: number = 1) {
 		if (!str.test(this.next(num)) && this.next() !== '') {
 			return true;
 		}
@@ -89,7 +89,7 @@ class Tokenizer {
 			return { kind: 'NumericLiteral', value: this.buffer };
 		}
 		if (this.startsWith(/\/\//g, 2)) {
-			while (this.notEndsWith(/\r\n?|\n|\u2028|\u2029/g, 1)) {
+			while (this.notEndsWith(/\r\n?|\n|\u2028|\u2029/g)) {
 				this.eat();
 			}
 			return { kind: 'Comment', value: this.buffer };
@@ -100,12 +100,11 @@ class Tokenizer {
 			}
 			return { kind: 'CommentMultiline', value: this.buffer };
 		}
-		for (const string of ['"', "'", '`']) {
-			if (this.buffer == string) {
-				while (this.next() !== string && this.next() !== '') {
+		for (const string of [/\"/g, /\'/g, /\`/g]) {
+			if (this.startsWith(string)) {
+				while (this.notEndsWith(string)) {
 					this.eat();
 				}
-				this.eat();
 				return { kind: 'String', value: this.buffer };
 			}
 		}
