@@ -79,11 +79,18 @@ class Tokenizer {
 				}
 				return {
 					kind: t.kind,
-					...(!t.literal && { value: this.buffer })
+					...(!t.literal && { value: this.buffer }),
+					start: this.cursor - this.buffer.length,
+					end: this.cursor
 				};
 			}
 		}
 
-		return { kind: 'INVALID', value: this.buffer };
+		return {
+			kind: 'INVALID',
+			value: this.buffer,
+			start: this.cursor - this.buffer.length,
+			end: this.cursor
+		};
 	}
 }
