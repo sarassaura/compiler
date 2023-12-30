@@ -1,4 +1,4 @@
-import { TokenLiteral, TokenKind } from './types';
+import { TokenKind } from './types';
 
 export default function lexer(str: string): Array<Token> {
 	const t = new Tokenizer(str);
@@ -90,11 +90,11 @@ class Tokenizer {
 				};
 			}
 		}
-		for (let i = 0; i < TokenLiteral.length; i++) {
-			if (TokenLiteral[i] == this.buffer) {
-				return { kind: TokenLiteral[i] };
-			}
-		}
+		// for (let i = 0; i < TokenLiteral.length; i++) {
+		// 	if (TokenLiteral[i] == this.buffer) {
+		// 		return { kind: TokenLiteral[i] };
+		// 	}
+		// }
 
 		return { kind: 'INVALID', value: this.buffer };
 	}

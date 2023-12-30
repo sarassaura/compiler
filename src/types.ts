@@ -1,28 +1,3 @@
-export const TokenLiteral = [
-	'=',
-	'(',
-	')',
-	'{',
-	'}',
-	'[',
-	']',
-	'>',
-	'<',
-	'+',
-	'-',
-	'*',
-	'/',
-	'%',
-	'.',
-	',',
-	';',
-	':',
-	'!',
-	'?',
-	'&',
-	'|'
-];
-
 export const keywords = [
 	'abstract',
 	'arguments',
@@ -90,6 +65,31 @@ export const keywords = [
 	'yield',
 	'document',
 	'window'
+];
+
+const TokenLiteral = [
+	{ kind: '=', start: /\=/, startLength: 1, literal: true },
+	{ kind: '(', start: /\(/, startLength: 1, literal: true },
+	{ kind: ')', start: /\)/, startLength: 1, literal: true },
+	{ kind: '{', start: /\{/, startLength: 1, literal: true },
+	{ kind: '}', start: /\}/, startLength: 1, literal: true },
+	{ kind: '[', start: /\[/, startLength: 1, literal: true },
+	{ kind: ']', start: /\]/, startLength: 1, literal: true },
+	{ kind: '>', start: /\>/, startLength: 1, literal: true },
+	{ kind: '<', start: /\</, startLength: 1, literal: true },
+	{ kind: '+', start: /\+/, startLength: 1, literal: true },
+	{ kind: '-', start: /\-/, startLength: 1, literal: true },
+	{ kind: '*', start: /\*/, startLength: 1, literal: true },
+	{ kind: '/', start: /\//, startLength: 1, literal: true },
+	{ kind: '%', start: /\%/, startLength: 1, literal: true },
+	{ kind: '.', start: /\./, startLength: 1, literal: true },
+	{ kind: ',', start: /\,/, startLength: 1, literal: true },
+	{ kind: ';', start: /\;/, startLength: 1, literal: true },
+	{ kind: ':', start: /\:/, startLength: 1, literal: true },
+	{ kind: '!', start: /\!/, startLength: 1, literal: true },
+	{ kind: '?', start: /\?/, startLength: 1, literal: true },
+	{ kind: '&', start: /\&/, startLength: 1, literal: true },
+	{ kind: '|', start: /\|/, startLength: 1, literal: true }
 ];
 
 export const TokenKind: Array<{
@@ -161,5 +161,6 @@ export const TokenKind: Array<{
 		end: /\`/,
 		endLength: 1,
 		literal: false
-	}
+	},
+	...TokenLiteral
 ];
