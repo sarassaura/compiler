@@ -114,7 +114,7 @@ export const TokenKind: Array<{
 		kind: 'Identifier',
 		start: /[a-zA-Z_]+/,
 		startLength: 1,
-		end: /(?![a-zA-Z0-9_]+)(.)/,
+		end: /(?![a-zA-Z0-9_]+)(.|\r\n?|\n|\u2028|\u2029|\t| )/,
 		endLength: 1,
 		literal: false,
 		tail: false
@@ -123,7 +123,7 @@ export const TokenKind: Array<{
 		kind: 'NumericLiteral',
 		start: /[0-9]+/,
 		startLength: 1,
-		end: /(?![0-9]+)(.)/,
+		end: /(?![0-9]+)(.|\r\n?|\n|\u2028|\u2029|\t| )/,
 		endLength: 1,
 		literal: false,
 		tail: false
@@ -135,7 +135,7 @@ export const TokenKind: Array<{
 		end: /\r\n?|\n|\u2028|\u2029/,
 		endLength: 1,
 		literal: false,
-		tail: true
+		tail: false
 	},
 	{
 		kind: 'CommentMultiline',
