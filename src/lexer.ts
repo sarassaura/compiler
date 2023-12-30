@@ -79,12 +79,6 @@ class Tokenizer {
 			while (/[a-zA-Z0-9_]+/g.test(this.next())) {
 				this.eat();
 			}
-
-			for (const keyword of keywords) {
-				if (this.buffer == keyword) {
-					return { kind: 'Keyword', value: this.buffer };
-				}
-			}
 			return { kind: 'Identifier', value: this.buffer };
 		}
 		if (this.startsWith(/[0-9]+/g, 1)) {
