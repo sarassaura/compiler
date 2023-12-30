@@ -78,9 +78,7 @@ class Tokenizer {
 					}
 				}
 				if (TokenKind[i].end) {
-					while (
-						this.notEndsWith(TokenKind[i].end!, TokenKind[i].startLength)
-					) {
+					while (this.notEndsWith(TokenKind[i].end!, TokenKind[i].endLength)) {
 						this.eat();
 					}
 				}
