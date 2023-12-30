@@ -72,12 +72,12 @@ class Tokenizer {
 	token(): Token {
 		for (let i = 0; i < TokenKind.length; i++) {
 			if (this.startsWith(TokenKind[i].start, TokenKind[i].startLength)) {
-				if (TokenKind[i].middle != undefined) {
+				if (TokenKind[i].middle) {
 					while (TokenKind[i].middle!.test(this.next())) {
 						this.eat();
 					}
 				}
-				if (TokenKind[i].end != undefined) {
+				if (TokenKind[i].end) {
 					while (
 						this.notEndsWith(TokenKind[i].end!, TokenKind[i].startLength)
 					) {
@@ -90,11 +90,6 @@ class Tokenizer {
 				};
 			}
 		}
-		// for (let i = 0; i < TokenLiteral.length; i++) {
-		// 	if (TokenLiteral[i] == this.buffer) {
-		// 		return { kind: TokenLiteral[i] };
-		// 	}
-		// }
 
 		return { kind: 'INVALID', value: this.buffer };
 	}

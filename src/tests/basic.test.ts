@@ -1,6 +1,6 @@
 import parser from '../parser';
 
-describe('Basic functionalities', () => {
+describe('Lexer Basic', () => {
 	test('WhiteSpaces and Newlines', () => {
 		expect(parser('    ')).toStrictEqual({
 			type: 'program',
