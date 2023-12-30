@@ -5,7 +5,10 @@ import parser from './parser';
 console.log(
 	parser(
 		`import { TokenLiteral, keywords } from './types';
-
+		// Hello
+		/*
+			Mua
+		*/
 		export default function lexer(str: string): Array<Token> {
 			const t = new Tokenizer(str);
 		

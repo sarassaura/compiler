@@ -53,14 +53,29 @@ class Tokenizer {
 		this.tokens.push(token);
 	}
 
+	startsWith(str: RegExp, num: number) {
+		if (str.test(this.buffer + this.next(num - 1))) {
+			this.eat(num - 1);
+			return true;
+		}
+		return false;
+	}
+
+	notEndsWith(str: RegExp, num: number) {
+		if (!str.test(this.next(num)) && this.next() !== '') {
+			return true;
+		}
+		return false;
+	}
+
 	token(): Token {
-		if (/^[ \t]+$/g.test(this.buffer)) {
+		if (this.startsWith(/^[ \t]+$/g, 1)) {
 			return { kind: 'whitespace' };
 		}
-		if (/\r\n?|\n|\u2028|\u2029/g.test(this.buffer)) {
+		if (this.startsWith(/\r\n?|\n|\u2028|\u2029/g, 1)) {
 			return { kind: 'newline' };
 		}
-		if (/[a-zA-Z_]+/g.test(this.buffer)) {
+		if (this.startsWith(/[a-zA-Z_]+/g, 1)) {
 			while (/[a-zA-Z0-9_]+/g.test(this.next())) {
 				this.eat();
 			}
@@ -72,22 +87,20 @@ class Tokenizer {
 			}
 			return { kind: 'Identifier', value: this.buffer };
 		}
-		if (/[0-9]+/g.test(this.buffer)) {
+		if (this.startsWith(/[0-9]+/g, 1)) {
 			while (/[0-9]+/g.test(this.next())) {
 				this.eat();
 			}
 			return { kind: 'NumericLiteral', value: this.buffer };
 		}
-		if (this.buffer + this.next() == '//') {
-			this.eat();
-			while (this.next() !== '\n' && this.next() !== '') {
+		if (this.startsWith(/\/\//g, 2)) {
+			while (this.notEndsWith(/\r\n?|\n|\u2028|\u2029/g, 1)) {
 				this.eat();
 			}
 			return { kind: 'Comment', value: this.buffer };
 		}
-		if (this.buffer + this.next() == '/*') {
-			this.eat();
-			while (this.next(2) !== '*/' && this.next() !== '') {
+		if (this.startsWith(/\/\*/g, 2)) {
+			while (this.notEndsWith(/\*\//g, 2)) {
 				this.eat();
 			}
 			this.eat(2);
